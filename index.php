@@ -8,12 +8,33 @@ name varchar(50),
 email varchar(50) unique
 )"; */
 
-$insert_sql = "insert into students(name,email) values('fady','fady@gmail.com'),('sam','sam@gmail.com')";
+// $insert_sql = "insert into students(name,email) values('fady','fady@gmail.com'),('sam','sam@gmail.com')";
 
-$run = mysqli_query($con,$insert_sql);
 
-if($run) {
-    echo "sql command done <br>";
-}else{
-    echo "sql command hasnt been done  <br>" . mysqli_error($con);
+
+?>
+<html lang="en">
+<head>
+</head>
+<body>
+
+<?php   
+
+$select_sql = "select * from students";
+$run = mysqli_query($con,$select_sql);
+foreach($run as $data){
+?>
+
+
+ <ul>
+        <li><?php echo $data['id'];  ?></li>
+        <li><?php echo $data['name'];  ?></li>
+        <li><?php echo $data['email'];  ?></li>
+    </ul>
+<?php 
 }
+?>
+   
+
+</body>
+</html>
