@@ -1,17 +1,19 @@
 <?php
-require_once "conn.php";
+require_once "./conn.php";
 
 
-$sql = "create table students(
+/* $sql = "create table students(
 id int primary key auto_increment,
 name varchar(50),
 email varchar(50) unique
-)";
+)"; */
 
-$run = mysqli_query($con,$sql);
+$insert_sql = "insert into students(name,email) values('fady','fady@gmail.com'),('sam','sam@gmail.com')";
+
+$run = mysqli_query($con,$insert_sql);
 
 if($run) {
-    echo "table created <br>";
+    echo "sql command done <br>";
 }else{
-    echo "error table hasnt been created <br>";
+    echo "sql command hasnt been done  <br>" . mysqli_error($con);
 }
