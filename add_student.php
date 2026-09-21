@@ -1,5 +1,16 @@
 <?php   
 include "./conn.php";
+
+if(isset($_GET['st_id'])){
+    $update = true;
+    $id = $_GET['st_id'] ;
+    $sql_update_select = "select * from students where id = $id";
+    $run_update = mysqli_query($con,$sql_update_select);
+    $res = mysqli_fetch_assoc($run_update);
+    $nm = $res['name'];
+    $em = $res['email'];
+   
+}
 ?>
 <html lang="en">
 <head>
@@ -7,8 +18,8 @@ include "./conn.php";
 <body>
 
     <form action="" method="post"> 
-        <input type="text" name="user" placeholder="username" required>
-        <input type="email" name="mail" placeholder="Email" required>
+        <input type="text" name="user" placeholder="username" required  value="<?php if(isset($res)){echo $nm;};   ?>">
+        <input type="email" name="mail" placeholder="Email"   required  value="<?php if(isset($res)){echo $em;};   ?>">
         <button type="submit" name="add"> ADD </button>
     </form>
 <a href="./index.php">All Students</a>
