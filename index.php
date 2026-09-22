@@ -21,11 +21,24 @@ email varchar(50) unique
 // $insert_sql = "insert into students(name,email) values('fady','fady@gmail.com'),('sam','sam@gmail.com')";
 
 ?>
+<!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student directory</title>
+  <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-<a href="./add_Student.php">Add student</a>
+<main class="page-shell">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Student directory</p>
+      <h1>All students</h1>
+      <p class="page-subtitle">Browse student records and manage course assignments.</p>
+    </div>
+    <a class="button" href="./add_Student.php">+ Add student</a>
+  </header>
 <?php   
 
 $select_sql = "select *,students.id as stud_id,students.name as stud_nm,course.name as c_name from students join course on students.course_id = course.id order by students.id";
@@ -35,18 +48,18 @@ foreach($run as $data){
 ?>
 
 
- <ul>
-        <li><?php echo $data['stud_id'];  ?></li>
-        <li><?php echo $data['stud_nm'];  ?></li>
-        <li><?php echo $data['email'];  ?></li>
-        <li><?php echo $data['c_name'];  ?></li>
+ <ul class="student-card panel">
+   <li class="student-id"><span>ID</span><?php echo $data['stud_id'];  ?></li>
+   <li class="student-name"><span>Student</span><?php echo $data['stud_nm'];  ?></li>
+   <li><span>Email</span><?php echo $data['email'];  ?></li>
+   <li><span>Course</span><?php echo $data['c_name'];  ?></li>
 
-        <li><a href="./add_student.php?st_id=<?php  echo $data['stud_id'];  ?>">update</a></li>
-        <li><a href="./index.php?std_id=<?php echo $data['stud_id']; ?>">delete</a></li>
+   <li class="card-actions"><a href="./add_student.php?st_id=<?php  echo $data['stud_id'];  ?>">Edit</a>
+   <a class="delete-link" href="./index.php?std_id=<?php echo $data['stud_id']; ?>">Delete</a></li>
     </ul>
 <?php 
 }
 ?>
-   
+</main>
 </body>
 </html>

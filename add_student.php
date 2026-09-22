@@ -12,35 +12,62 @@ if (isset($_GET['st_id'])) {
     $co_id = $res['course_id'];
 }
 ?>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student form</title>
+    <link rel="stylesheet" href="./styles.css">
 </head>
 
 <body>
+<main class="page-shell">
+    <header class="page-header">
+        <div>
+            <p class="eyebrow">Student directory</p>
+            <h1><?php echo isset($update) ? 'Update student' : 'Add a student'; ?></h1>
+            <p class="page-subtitle">Add a new record or keep an existing student profile current.</p>
+        </div>
+        <a class="button secondary" href="./index.php">All students</a>
+    </header>
 
-    <form action="" method="post">
-        <input type="text" name="user" placeholder="username" required value="<?php if (isset($update)) {
+    <section class="panel form-panel">
+        <form class="student-form" action="" method="post">
+            <div class="field">
+                <label for="user">Full name</label>
+                <input id="user" type="text" name="user" placeholder="Student name" required value="<?php if (isset($update)) {
                                                                                     echo $nm;
                                                                                 };   ?>">
-        <input type="email" name="mail" placeholder="Email" required value="<?php if (isset($update)) {
+            </div>
+            <div class="field">
+                <label for="mail">Email address</label>
+                <input id="mail" type="email" name="mail" placeholder="student@example.com" required value="<?php if (isset($update)) {
                                                                                 echo $em;
                                                                             };   ?>">
+            </div>
 
-        <select name="course">
-            <?php
-            $select_course = "select * from course";
-            $run_course = mysqli_query($con, $select_course);
-            foreach ($run_course as $c):
-            ?>
-                <option value="<?php echo $c['id'];  ?>" <?php if(isset($_GET['st_id'])){if($c['id']==$co_id){echo "selected";}}   ?>><?php echo $c['name'];  ?></option>
-            <?php endforeach; ?>
+            <div class="field">
+                <label for="course">Course</label>
+                <select id="course" name="course">
+                    <?php
+                    $select_course = "select * from course";
+                    $run_course = mysqli_query($con, $select_course);
+                    foreach ($run_course as $c):
+                    ?>
+                        <option value="<?php echo $c['id'];  ?>" <?php if(isset($_GET['st_id'])){if($c['id']==$co_id){echo "selected";}}   ?>><?php echo $c['name'];  ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
 
-        </select>
-
-        <button type="submit" name="add"> ADD </button>
-    </form>
-    <a href="./index.php">All Students</a><br>
+            <div class="form-actions">
+                <button type="submit" name="add"><?php echo isset($update) ? 'Save changes' : 'Add student'; ?></button>
+                <a class="button secondary" href="./index.php">Cancel</a>
+            </div>
+        </form>
+    </section>
+</main>
 </body>
 
 </html>
