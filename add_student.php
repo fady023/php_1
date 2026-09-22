@@ -84,10 +84,13 @@ if (isset($_POST['add'])) {
     $c_id = $_POST['course'];
 
     $check_mail = "select * from students where email='$email'";
+    if($update){
+        $check_mail .= "and id != $id";
+    }
     $run_check = mysqli_query($con, $check_mail);
     $check_rows = mysqli_num_rows($run_check);
 
-    if ($check_rows > 1) {
+    if ($check_rows > 0) {
         if (isset($update)) {
             $sql = "update students set name='$name' , email='$email' , course_id='$c_id' where id='$id' ";
         } else {
