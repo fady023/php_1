@@ -84,7 +84,7 @@ if (isset($_POST['add'])) {
     $c_id = $_POST['course'];
 
     $check_mail = "select * from students where email='$email'";
-    if($update){
+    if(isset($update)){
         $check_mail .= "and id != $id";
     }
     $run_check = mysqli_query($con, $check_mail);
@@ -99,7 +99,7 @@ if (isset($_POST['add'])) {
 
         $run = mysqli_query($con, $sql);
         if ($run) {
-            header("location:./index.php");
+            header("location:index.php");
         }
     } 
     else {
