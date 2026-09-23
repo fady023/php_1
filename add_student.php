@@ -1,5 +1,8 @@
 <?php
 include "./conn.php";
+$update = false;
+
+if (isset($_SESSION['name'])) {
 
 if (isset($_GET['st_id'])) {
     $update = true;
@@ -10,6 +13,11 @@ if (isset($_GET['st_id'])) {
     $nm = $res['name'];
     $em = $res['email'];
     $co_id = $res['course_id'];
+}
+
+if(isset($_GET['logout'])){
+    session_destroy();
+    header("location:register.php");
 }
 ?>
 <!DOCTYPE html>
@@ -37,13 +45,11 @@ if (isset($_GET['st_id'])) {
             <form class="student-form" action="" method="post">
                 <div class="field">
                     <label for="user">Full name</label>
-                    <input id="user" type="text" name="user" placeholder="Student name" required value="<?php if (isset($update)) {
-                                                                                                            echo $nm;
-                                                                                                        };   ?>">
+                    <input id="user" type="text" name="user" placeholder="Student name" required value="<?php if($update){echo $nm;} ?>">
                 </div>
                 <div class="field">
                     <label for="mail">Email address</label>
-                    <input id="mail" type="email" name="mail" placeholder="student@example.com" required value="<?php if (isset($update)) {
+                    <input id="mail" type="email" name="mail" placeholder="student@example.com" required value="<?php if($update) {
                                                                                                                     echo $em;
                                                                                                                 };   ?>">
                 </div>
@@ -56,7 +62,7 @@ if (isset($_GET['st_id'])) {
                         $run_course = mysqli_query($con, $select_course);
                         foreach ($run_course as $c):
                         ?>
-                            <option value="<?php echo $c['id'];  ?>" <?php if (isset($_GET['st_id'])) {
+                            <option value="<?php echo $c['id'];  ?>" <?php if ($update) {
                                                                             if ($c['id'] == $co_id) {
                                                                                 echo "selected";
                                                                             }
@@ -71,6 +77,7 @@ if (isset($_GET['st_id'])) {
                 </div>
             </form>
         </section>
+        <?php  include "footer.php"  ?>
     </main>
 </body>
 
@@ -80,29 +87,50 @@ if (isset($_GET['st_id'])) {
 
 if (isset($_POST['add'])) {
     $name = $_POST['user'];
+    if (empty($name)) {
+        array_push($error, "name is empty");
+    };
     $email = $_POST['mail'];
+    if (empty($email)) {
+        array_push($error, "email is empty");
+    };
+
     $c_id = $_POST['course'];
 
     $check_mail = "select * from students where email='$email'";
-    if(isset($update)){
+    if ($update) {
         $check_mail .= "and id != $id";
     }
     $run_check = mysqli_query($con, $check_mail);
     $check_rows = mysqli_num_rows($run_check);
 
     if ($check_rows > 0) {
-        if (isset($update)) {
-            $sql = "update students set name='$name' , email='$email' , course_id='$c_id' where id='$id' ";
-        } else {
-            $sql = "insert into students(name,email,course_id) values('$name','$email','$c_id')";
-        }
 
-        $run = mysqli_query($con, $sql);
-        if ($run) {
-            header("location:index.php");
+        array_push($error, "this email already exists");
+    } else {
+
+        if (empty($error)) {
+
+            if ($update) {
+                $sql = "update students set name='$name' , email='$email' , course_id='$c_id' where id='$id' ";
+            } else {
+                $sql = "insert into students(name,email,course_id) values('$name','$email','$c_id')";
+            }
+
+            $run = mysqli_query($con, $sql);
+            if ($run) {
+                header("location:index.php");
+            }else{
+                echo "error " . mysqli_error($con);
+            }
+        }else{
+            foreach($error as $err){
+                echo $err ."<BR>";
+            }
         }
-    } 
-    else {
-        echo "this email already exists";
     }
+}
+
+}else{
+    header("location:register.php");
 }

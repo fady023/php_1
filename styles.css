@@ -24,6 +24,7 @@ body {
 
 a {
     color: var(--accent);
+    color:#bfd6df;
     font-weight: 700;
     text-decoration: none;
 }
@@ -84,6 +85,7 @@ button {
     border: 0;
     border-radius: 6px;
     color: #fff;
+    /* color:red; */
     background: var(--accent);
     font: inherit;
     font-weight: 800;
@@ -236,12 +238,15 @@ select:focus {
     outline: 3px solid rgba(23, 107, 135, 0.18);
     border-color: var(--accent);
 }
-
+.x{
+    display:flex;align-items:center;justify-content:center;margin-top:10px;
+}
 .form-actions {
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
     margin-top: 6px;
+    /* align-items: center;justify-content: center; */
 }
 
 .notice {

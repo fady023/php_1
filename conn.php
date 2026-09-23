@@ -13,3 +13,6 @@ if(!$con){
 }else{
   //  echo "connected to database successfully <br> ";
 }
+
+$error = array();
+session_start();
