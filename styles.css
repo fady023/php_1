@@ -109,21 +109,39 @@ button:hover {
 
 .student-card {
     display: grid;
-    grid-template-columns: 0.45fr 1.2fr 1.5fr 1fr auto;
-    gap: 0;
+    grid-template-columns: 0.45fr 1.2fr 1.5fr 1fr auto auto;
+    gap: 8px;
     align-items: center;
     margin: 0 0 14px;
     padding: 0;
     list-style: none;
+    overflow: hidden;
+    transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
 }
 
 .student-card li {
     min-width: 0;
-    padding: 18px 20px;
+    padding: 24px 20px;
     color: var(--muted);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+.student-card .student-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 20px;
+}
+
+.student-card .student-image img {
+    display: block;
+    width: 88px;
+    height: 88px;
+    border: 3px solid #edf2f6;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 .student-card li span {
@@ -143,8 +161,48 @@ button:hover {
 .student-card .card-actions {
     display: flex;
     justify-content: flex-end;
-    gap: 14px;
+    gap: 8px;
     overflow: visible;
+}
+
+.student-card .card-actions a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 72px;
+    min-height: 36px;
+    padding: 0 12px;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    font-weight: 800;
+    transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+
+.student-card .edit-link {
+    color: var(--accent);
+    border-color: #b9d6df;
+    background: #f1f8fa;
+}
+
+.student-card .edit-link:hover,
+.student-card .edit-link:focus-visible {
+    color: #fff;
+    border-color: var(--accent);
+    background: var(--accent);
+}
+
+.student-card .delete-link {
+    color: var(--danger);
+    border-color: #ecc7cc;
+    background: #fff7f7;
+}
+
+.student-card .delete-link:hover,
+.student-card .delete-link:focus-visible {
+    color: #fff;
+    border-color: var(--danger);
+    background: var(--danger);
 }
 
 .student-card.panel:first-of-type {
@@ -154,6 +212,7 @@ button:hover {
 .student-card.panel:hover {
     border-color: #bfd6df;
     box-shadow: 0 16px 38px rgba(27, 46, 76, 0.13);
+    transform: translateY(-2px);
 }
 
 .student-table {
@@ -283,6 +342,13 @@ select:focus {
         padding: 10px 0;
     }
 
+    .student-card .student-image {
+        /* grid-column: 1 / -5; */
+        justify-content: flex-start;
+        padding: 10px 0 14px;
+        width: 30%;
+    }
+
     .student-card li span {
         display: block;
         margin-bottom: 3px;
@@ -311,9 +377,13 @@ select:focus {
 
     .student-card .card-actions {
         grid-column: 1 / -1;
-        justify-content: flex-start;
+        justify-content: stretch;
         order: 5;
         padding-top: 14px;
         border-top: 1px solid var(--line);
+    }
+
+    .student-card .card-actions a {
+        flex: 1;
     }
 }

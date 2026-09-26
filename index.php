@@ -69,20 +69,21 @@ email varchar(50) unique
           <li class="student-name"><span>Student</span><?php echo $data['stud_nm'];  ?></li>
           <li><span>Email</span><?php echo $data['email'];  ?></li>
           <li><span>Course</span><?php echo $data['c_name'];  ?></li>
-
-          <li class="card-actions"><a href="./add_student.php?st_id=<?php echo $data['stud_id'];  ?>">Edit</a>
+          <li class="student-image"><img src="<?php echo $data['image'] ;  ?>" alt="<?php echo $data['stud_nm']; ?>"></li>
+       
+          <li class="card-actions"><a class="edit-link" href="./add_student.php?st_id=<?php echo $data['stud_id'];  ?>">Edit</a>
             <a class="delete-link" href="./index.php?std_id=<?php echo $data['stud_id']; ?>">Delete</a>
           </li>
         </ul>
       <?php
       }
       ?>
-        <div class="form-actions">
-     <?php  include "footer.php"  ?>
-    </div>
+      <div class="form-actions">
+        <?php include "footer.php"  ?>
+      </div>
 
     </main>
-  
+
 
   </body>
 

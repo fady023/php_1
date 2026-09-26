@@ -18,7 +18,7 @@ include "./conn.php";
             <div>
                 <h1 >Admin Login</h1>
             </div>
-            <a class="button secondary" href="./index.php">Back to home</a>
+            <a class="button secondary" href="./index.php" onclick="alert('You should login first to show student')">Back to home</a>
         </header>
 
         <section class="panel form-panel">
