@@ -19,6 +19,8 @@ if (isset($_SESSION['name'])) {
     header("location:register.php");
   }
 
+
+
   /* $sql = "create table students(
 id int primary key auto_increment,
 name varchar(50),
@@ -42,13 +44,25 @@ email varchar(50) unique
     <main class="page-shell">
       <header class="page-header">
         <div>
+          <section class="panel form-panel" style="width: 90%;">
+
+            <form class="student-form" action="" method="post">
+              <div class="field">
+                <label for="user">search : </label>
+                <input type="text" id="user" placeholder="name" name="search_name">
+                <button type="submit" name="search">Search</button>
+              </div>
+            </form>
+          </section>
 
           <p class="eyebrow"> Welcome <?php if (isset($_SESSION['name'])):  echo $_SESSION['name'];
                                       endif; ?></p>
-
+          <h2 class="panel "><?php if (isset($_SESSION['msg'])) {
+                                echo $_SESSION['msg'];
+                              }  ?></h2>
 
           <h1>All students</h1>
-          <p class="page-subtitle">Browse student records and manage course assignments.</p>
+
         </div>
         <div class="form-actions">
           <a class="button" href="./add_Student.php">+ Add student</a>
@@ -57,8 +71,23 @@ email varchar(50) unique
       </header>
       <?php
 
-      $select_sql = "select *,students.id as stud_id,students.name as stud_nm,course.name as c_name from students join course on students.course_id = course.id order by students.id";
-      $run = mysqli_query($con, $select_sql);
+      if (isset($_POST['search'])) {
+
+        $student_names = $_POST['search_name'];
+
+        $sql = "select *, students.id as stud_id,students.name as stud_nm,course.name as c_name 
+             from students 
+                join course
+                   on students.course_id = course.id
+                     where students.name like '%$student_names%' ";
+      } else {
+
+        $sql = "select *,students.id as stud_id,students.name as stud_nm,course.name as c_name from students 
+                join course on students.course_id = course.id order by students.id";
+      }
+
+
+      $run = mysqli_query($con, $sql);
 
       foreach ($run as $data) {
       ?>
@@ -69,8 +98,8 @@ email varchar(50) unique
           <li class="student-name"><span>Student</span><?php echo $data['stud_nm'];  ?></li>
           <li><span>Email</span><?php echo $data['email'];  ?></li>
           <li><span>Course</span><?php echo $data['c_name'];  ?></li>
-          <li class="student-image"><img src="<?php echo $data['image'] ;  ?>" alt="<?php echo $data['stud_nm']; ?>"></li>
-       
+          <li class="student-image"><img src="<?php echo $data['image'];  ?>"></li>
+
           <li class="card-actions"><a class="edit-link" href="./add_student.php?st_id=<?php echo $data['stud_id'];  ?>">Edit</a>
             <a class="delete-link" href="./index.php?std_id=<?php echo $data['stud_id']; ?>">Delete</a>
           </li>

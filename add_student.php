@@ -123,7 +123,7 @@ if (isset($_SESSION['name'])) {
         } else {
 
             if (!move_uploaded_file($_FILES['img']['tmp_name'], $target_file)) {
-                 array_push($error, "image hasnt been uploaded");
+                 array_push($error, "image hasnt been uploaded 2");
             } 
         }
 
@@ -151,6 +151,13 @@ if (isset($_SESSION['name'])) {
 
                 $run = mysqli_query($con, $sql);
                 if ($run) {
+                    if($update){
+                    $_SESSION['msg'] = "Student has been updated " ;
+
+                    }else{
+                    $_SESSION['msg'] = "Student has been added " ;
+
+                    }
                     header("location:index.php");
                 } else {
                     echo "error " . mysqli_error($con);
