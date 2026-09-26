@@ -121,10 +121,13 @@ if (isset($_SESSION['name'])) {
                 $target_file = $img;
             }
         } else {
+            
 
             if (!move_uploaded_file($_FILES['img']['tmp_name'], $target_file)) {
                  array_push($error, "image hasnt been uploaded 2");
-            } 
+            }else{
+                $target_file = 0;
+            }
         }
 
 
@@ -146,7 +149,7 @@ if (isset($_SESSION['name'])) {
                 if ($update == true) {
                     $sql = "update students set name='$name' , email='$email',image='$target_file' , course_id='$c_id' where id='$id' ";
                 } else {
-                    $sql = "insert into students(name,email,image,course_id) values('$name','$email','$target_file','$c_id')";
+                    $sql = "insert into students(name,email,image,course_id) values('$name','$email',IF('$target_file' != 0 , '$target_file',image),'$c_id')";
                 }
 
                 $run = mysqli_query($con, $sql);
