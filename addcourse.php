@@ -1,16 +1,18 @@
-<?php     
+<?php
 include "conn.php";
 
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Course</title>
     <link rel="stylesheet" href="./styles.css">
 </head>
+
 <body>
     <main class="page-shell">
         <header class="page-header">
@@ -45,29 +47,39 @@ include "conn.php";
         <?php include "footer.php" ?>
     </main>
 </body>
+
 </html>
 
-<?php  
+<?php
 
-if(isset($_POST['add_btn'])){
-    
+if (isset($_POST['add_btn'])) {
+
     $c_name = $_POST['course'];
-    if(empty($c_name)){
-        array_push($error,"name is required");
+    if (empty($c_name)) {
+        array_push($error, "name is required");
     }
     $c_desc = $_POST['description'];
-       if(empty($c_desc)){
-        array_push($error,"name is required");
+    if (empty($c_desc)) {
+        array_push($error, "name is required");
     }
-    $insert_course =mysqli_query($con,"insert into course(name,description) vaues($c_name,$c_desc) ") ;
+    $insert_course = mysqli_query($con, "insert into course(name,description) values('$c_name','$c_desc') ");
 
-    $select_course = mysqli_fetch_assoc(mysqli_query($con,"select LAST_INSERT_ID() AS id"));
+    $select_course = mysqli_fetch_assoc(mysqli_query($con, "select LAST_INSERT_ID() AS id"));
     $course_id = $select_course['id'];
-    
-    $target_dir = "uploads/courses";
-    foreach($_FILES['imgs']['name'] as $x=>$img){
-        // echo $x . " //// " .$img ."<br>";
-       
+
+    $target_dir = "uploads/courses/";
+
+    foreach ($_FILES['imgs']['name'] as $i => $img) {
+        $filename = $img;
+        $target_file = $target_dir . $filename;
+
+        if (move_uploaded_file($_FILES['imgs']['tmp_name'][$i], $target_file)) {
+            $insert_imgs = "insert into course_imgs(image,course_id) values('$target_file','$course_id')";
+
+            if (mysqli_query($con, $insert_imgs) && empty($error)) {
+                $_SESSION['msg'] = "course images inserted";
+                header("location:index.php");
+            }
+        }
     }
-    
 }

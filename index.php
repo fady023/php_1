@@ -67,6 +67,7 @@ email varchar(50) unique
         <div class="form-actions">
           <a class="button" href="./add_Student.php">+ Add Student</a>
           <a class="button" href="./addcourse.php">+ Add Course</a>
+          <a class="button" href="./show_courses.php">+ Show All Courses</a>
           <a class="button secondary" href="./register.php">Register</a>
         </div>
       </header>
